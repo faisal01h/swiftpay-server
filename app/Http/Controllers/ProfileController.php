@@ -21,8 +21,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        $user->roles();
+        $user = Auth::guard('web')->user();
+        // $user->roles();
         foreach($user["roles"] as $role) {
             $role->detail;
             $role->createdBy;
