@@ -4,9 +4,22 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Authenticated({ user, header, children, mode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showManagement, setShowManagement] = useState(false);
+
+    useEffect(() => {
+        for(let i = 0; i < user.roles.length; ++i) {
+            if( user.roles[i].role_id === 1 ||
+                user.roles[i].role_id === 2 ||
+                user.roles[i].role_id === 3
+            ) {
+                setShowManagement(true);
+            }
+        }
+    }, [])
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -29,12 +42,20 @@ export default function Authenticated({ user, header, children, mode }) {
                                     <NavLink href={route('dashboard.transactions')} active={route().current('dashboard.transactions')}>
                                         Transactions
                                     </NavLink>
+                                    {
+                                        showManagement ?
+                                        <NavLink href={route('dashboard.management')} active={route().current('dashboard.management')}>
+                                            Management
+                                        </NavLink> : false
+                                    }
+
                                 </div>
                                 :
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
                                     <span className='font-bold'>Onboarding</span>
                                 </div>
                             }
+
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">

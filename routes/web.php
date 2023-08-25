@@ -37,12 +37,13 @@ Route::get('/', function () {
 Route::middleware('auth:web')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/transactions', [DashboardController::class, 'showTransactions'])->name('dashboard.transactions');
+    Route::get('/management', [DashboardController::class, 'managementIndex'])->name('dashboard.management');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::get('/wapi/transactions', [TransactionJwtController::class, 'search'])->name('wapi.transactions');
+    Route::get('/wapi/transactions', [TransactionJwtController::class, 'search'])->name('wapi.transactions');
 });
 
 

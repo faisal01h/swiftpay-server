@@ -82,11 +82,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
     }, [unformattedTd])
 
     function transactionCount(status) {
-        let count = 0;
-        for(let i = 0; i < stats?.transactions.length; ++i) {
-            if(stats.transactions[i].status === status) count++;
-        }
-        return count;
+        return stats.transactions[status];
     }
 
     const reloadData = () => {
@@ -140,7 +136,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
                                 <h3>Total</h3>
                                 <div className="text-right flex justify-between gap-3 items-end">
                                     <span className="uppercase text-xs"></span>
-                                    <span className="text-lg">{stats?.transactions.length}</span>
+                                    <span className="text-lg">{transactionCount("UNPAID") + transactionCount("SUCCESS") + transactionCount("PENDING") + transactionCount("FAILED")}</span>
                                 </div>
                             </div>
                             <div className='bg-white shadow-lg px-3 py-2 rounded-lg flex-grow'>
@@ -184,7 +180,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
                                 <h3>Total</h3>
                                 <div className="text-right flex justify-between gap-3 items-end">
                                     <span className="uppercase text-xs"></span>
-                                    <span className="text-lg">{stats?.transactions.length}</span>
+                                    <span className="text-lg">{transactionCount("PEND_REFUND") + transactionCount("SUCC_REFUND") + transactionCount("CANC_REFUND")}</span>
                                 </div>
                             </div>
                             <div className='bg-white shadow-lg px-3 py-2 rounded-lg flex-grow'>

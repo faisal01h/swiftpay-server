@@ -9,7 +9,7 @@ const trxStatusClass = {
 };
 
 export default function({ data }) {
-    console.log(data)
+    // console.log(data)
 
     return (
         <div className="px-3 py-3 flex flex-col">

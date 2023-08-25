@@ -20,6 +20,36 @@ function beep() {
     snd.play();
 }
 
+const columns = [
+    {
+        name: 'Invoice',
+        selector: row => <div><pre className='font-mono font-semibold tracking-wider hover:bg-gray-300 px-1 cursor-copy' onClick={e=>navigator.clipboard.writeText(row.invoice)}>{row.invoice}</pre></div>,
+    },
+    {
+        name: 'RefID',
+        selector: row => <div><pre className='font-mono font-semibold hover:bg-gray-300 px-1 cursor-copy' onClick={e=>navigator.clipboard.writeText(row.ref_id)}>{row.ref_id}</pre></div>,
+    },
+    {
+        name: 'UserIdent',
+        selector: row => row.user_identifier,
+        sortable: true,
+    },
+    {
+        name: 'Status',
+        selector: row => row.status,
+    },
+    {
+        name: 'Commodity',
+        selector: row => row.commodity,
+        sortable: true,
+    },
+    {
+        name: 'Sold Price',
+        selector: row => Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(row.sold_price),
+        sortable: true,
+    },
+];
+
 export default function Dashboard({ auth, stats, filteredData }) {
 
     const [ autofetch, setAutofetch ] = useState(true);
@@ -41,38 +71,8 @@ export default function Dashboard({ auth, stats, filteredData }) {
 
     const reloadData = () => {
         if(autofetch) router.reload({ only: ['stats', 'filteredData'] })
-        console.log(stats)
+        // console.log(stats)
     }
-
-    const columns = [
-        {
-            name: 'Invoice',
-            selector: row => <div><pre className='font-mono font-semibold tracking-wider hover:bg-gray-300 px-1 cursor-copy' onClick={e=>navigator.clipboard.writeText(row.invoice)}>{row.invoice}</pre></div>,
-        },
-        {
-            name: 'RefID',
-            selector: row => <div><pre className='font-mono font-semibold hover:bg-gray-300 px-1 cursor-copy' onClick={e=>navigator.clipboard.writeText(row.ref_id)}>{row.ref_id}</pre></div>,
-        },
-        {
-            name: 'UserIdent',
-            selector: row => row.user_identifier,
-            sortable: true,
-        },
-        {
-            name: 'Status',
-            selector: row => row.status,
-        },
-        {
-            name: 'Commodity',
-            selector: row => row.commodity,
-            sortable: true,
-        },
-        {
-            name: 'Sold Price',
-            selector: row => Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(row.sold_price),
-            sortable: true,
-        },
-    ];
 
     function submitSearch(e) {
         e.preventDefault();
