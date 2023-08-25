@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('commodity'); // nama game
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
-            $table->string('invoice');
-            $table->string('ref_id');
+            $table->string('invoice')->unique();
+            $table->string('ref_id')->unique();
             $table->string('payment_method');
             $table->string('source');
             $table->bigInteger('base_price');

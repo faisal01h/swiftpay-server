@@ -17,14 +17,20 @@ trait Transaction
         "sold_price" => true,
         "status" => true
     ];
-    public function find(array $keyValuePairs)
+    public function find(array $keyValuePairs, $limit = 30)
     {
         $query = DB::table('transactions');
         foreach($this->findKey as $key => $_value) {
             if(array_key_exists($key, $keyValuePairs)) {
                 $query->where($key, $keyValuePairs[$key]);
             }
+
         }
+        if($limit > 0) {
+            $query->limit($limit);
+        }
+        // $query->limit(25);
+        // $result = $query->orderByDesc('updated_at')->get();
         $result = $query->get();
         return $result;
     }

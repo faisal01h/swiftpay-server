@@ -73,4 +73,5 @@ Route::controller(ApiGamesController::class)->group(function () {
 
 Route::controller(DigiflazzController::class)->group(function () {
     Route::get('payment/digiflazz', 'balanceCheck');
+    Route::post('payment/digiflazz', 'create');
 });

@@ -36,15 +36,12 @@ export default function Dashboard({ auth, stats, filteredData }) {
     });
 
     function transactionCount(status) {
-        let count = 0;
-        for(let i = 0; i < stats?.transactions.length; ++i) {
-            if(stats.transactions[i].status === status) count++;
-        }
-        return count;
+        return stats.transactions[status];
     }
 
     const reloadData = () => {
-        if(autofetch) router.reload({ only: ['stats'] })
+        if(autofetch) router.reload({ only: ['stats', 'filteredData'] })
+        console.log(stats)
     }
 
     const columns = [
@@ -153,7 +150,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
                                 <h3>Total</h3>
                                 <div className="text-right flex justify-between gap-3 items-end">
                                     <span className="uppercase text-xs"></span>
-                                    <span className="text-lg">{stats?.transactions.length}</span>
+                                    <span className="text-lg">{stats.transactions.UNPAID + stats.transactions.PENDING + stats.transactions.FAILED + stats.transactions.SUCCESS}</span>
                                 </div>
                             </div>
                             <div className='bg-white shadow-lg px-3 py-2 rounded-lg flex-grow' onClick={_=>filterByTopButtons("UNPAID")}>
@@ -197,7 +194,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
                                 <h3>Total</h3>
                                 <div className="text-right flex justify-between gap-3 items-end">
                                     <span className="uppercase text-xs"></span>
-                                    <span className="text-lg">{stats?.transactions.length}</span>
+                                    <span className="text-lg">{stats.transactions.PEND_REFUND + stats.transactions.SUCC_REFUND + stats.transactions.CANC_REFUND}</span>
                                 </div>
                             </div>
                             <div className='bg-white shadow-lg px-3 py-2 rounded-lg flex-grow' onClick={_=>filterByTopButtons("PEND_REFUND")}>

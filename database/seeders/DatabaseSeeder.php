@@ -21,17 +21,28 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         \App\Models\User::create([
+            'name' => 'SWIFT SYSTEM',
+            'phone' => 'SYSTEM',
+            'email' => 'SYSTEM',
+            'password' => "^_^SYSTEM^_^",
+        ]);
+        \App\Models\User::create([
             'name' => 'Faisal Hanif',
             'phone' => '+6285733710858',
             'email' => 'faisal01h@gmail.com',
-            'password' => Hash::make('28092001'),
+            'password' => Hash::make('password'),
+            'email_verified_at' => now("Asia/Jakarta")
         ]);
         \App\Models\User::create([
             'name' => 'Ernia Dwi Anjani',
             'phone' => '+6285648597632',
             'email' => 'erniadwianjani@gmail.com',
-            'password' => Hash::make('Ernia123@'),
+            'password' => Hash::make('password'),
+            'email_verified_at' => now("Asia/Jakarta")
         ]);
+
+        \App\Models\Transaction::factory(12721)->create();
+
         \App\Models\Role::create([
             'name' => 'CEO',
             'importance' => 20,
@@ -45,6 +56,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Role::create([
             'name' => 'CTO',
             'importance' => 19,
+            'created_by' => 1,
+        ]);
+        \App\Models\Role::create([
+            'name' => 'BOT',
+            'importance' => 18,
             'created_by' => 1,
         ]);
         \App\Models\Role::create([
@@ -135,17 +151,17 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Userrole::create([
             'user_id' => 1,
+            'role_id' => 4,
+            'created_by' => 1
+        ]);
+        \App\Models\Userrole::create([
+            'user_id' => 2,
             'role_id' => 1,
             'created_by' => 1
         ]);
         \App\Models\Userrole::create([
-            'user_id' => 2,
+            'user_id' => 3,
             'role_id' => 2,
-            'created_by' => 1
-        ]);
-        \App\Models\Userrole::create([
-            'user_id' => 2,
-            'role_id' => 6,
             'created_by' => 1
         ]);
 

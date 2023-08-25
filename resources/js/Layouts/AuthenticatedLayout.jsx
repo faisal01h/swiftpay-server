@@ -20,14 +20,21 @@ export default function Authenticated({ user, header, children, mode }) {
                                 </Link>
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                                <NavLink href={route('dashboard.transactions')} active={route().current('dashboard.transactions')}>
-                                    Transactions
-                                </NavLink>
-                            </div>
+                            {
+                                mode !== "onboarding" ?
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink href={route('dashboard.transactions')} active={route().current('dashboard.transactions')}>
+                                        Transactions
+                                    </NavLink>
+                                </div>
+                                :
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
+                                    <span className='font-bold'>Onboarding</span>
+                                </div>
+                            }
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">

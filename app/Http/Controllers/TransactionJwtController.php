@@ -37,7 +37,7 @@ class TransactionJwtController extends Controller
             ], 403);
         }
 
-        $result = $this->find($searchQuery);
+        $result = $this->find($searchQuery, $request->limit ? $request->limit : 0);
         $code = count($result) > 0 ? 200 : 404;
         return response()->json([
             "meta" => [

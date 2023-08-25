@@ -1,5 +1,5 @@
 const trxStatusClass = {
-    UNPAID: "bg-gray-700, text-white",
+    UNPAID: "bg-slate-700, text-white",
     SUCCESS: "bg-green-600 text-white",
     PENDING: "bg-amber-600 text-white",
     FAILED: "bg-red-600 text-white",
