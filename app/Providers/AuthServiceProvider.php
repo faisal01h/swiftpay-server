@@ -28,12 +28,67 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('read-transaction', function (User $user) {
             $allowed = [
                 "CEO",
+                "CTO",
+                "COO",
                 "Finance",
                 "Senior Software Engineer",
                 "Junior Software Engineer",
                 "Devops & QA",
                 "Operations",
                 "Customer Service"
+            ];
+            $user->roles;
+            foreach($user["roles"] as $role) {
+                $role->detail;
+                for($i = 0; $i < count($allowed); ++$i) {
+                    if($role["detail"]["name"] === $allowed[$i]) return true;
+                }
+            }
+            return false;
+        });
+
+        Gate::define('manual-transaction', function (User $user) {
+            $allowed = [
+                "CEO",
+                "CTO",
+                "COO",
+                "CFO",
+                "Operations"
+            ];
+            $user->roles;
+            foreach($user["roles"] as $role) {
+                $role->detail;
+                for($i = 0; $i < count($allowed); ++$i) {
+                    if($role["detail"]["name"] === $allowed[$i]) return true;
+                }
+            }
+            return false;
+        });
+
+        Gate::define('management', function (User $user) {
+            $allowed = [
+                "CEO",
+                "CTO",
+                "COO",
+                "CFO",
+                "Human Resources"
+            ];
+            $user->roles;
+            foreach($user["roles"] as $role) {
+                $role->detail;
+                for($i = 0; $i < count($allowed); ++$i) {
+                    if($role["detail"]["name"] === $allowed[$i]) return true;
+                }
+            }
+            return false;
+        });
+
+        Gate::define('management.set-role', function (User $user) {
+            $allowed = [
+                "CEO",
+                "CTO",
+                "COO",
+                "CFO"
             ];
             $user->roles;
             foreach($user["roles"] as $role) {

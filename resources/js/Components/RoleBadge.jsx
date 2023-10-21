@@ -5,10 +5,13 @@ export default function RoleBadge({ className = '', role, children, hoverEnlarge
         *   Senior Position : Solid background according to their respective department
         *   Junior Position : Colored border according to their respective department
         */
-        CEO: "bg-gradient-to-r from-indigo-600 to-cyan-600 text-gray-100",
-        CFO:"bg-gradient-to-r from-rose-600 to-pink-300 text-gray-100",
-        CTO: "bg-cyan-600 text-gray-100",
-        Finance: "border border-rose-500 text-rose-500",
+        CEO: "bg-gradient-to-r from-yellow-700 to-amber-400 text-gray-100",
+        CFO: "bg-gradient-to-r from-emerald-600 to-green-400 text-gray-100",
+        CTO: "bg-gradient-to-r from-blue-700 to-cyan-400 text-gray-100",
+        COO: "bg-gradient-to-r from-rose-600 to-pink-400 text-gray-100",
+        Accounting: "border border-emerald-500 text-emerald-500",
+        "Customer Relations": "border border-rose-500 text-rose-500",
+        "Operations": "border border-rose-500 text-rose-500",
         "Senior Software Engineer": "bg-cyan-600 text-gray-100",
         "3-Years of Service": "bg-gradient-to-r from-[#C4540B] via-amber-500 to-[#967100] text-white",
         "5-Years of Service": "bg-gradient-to-r from-gray-600 via-slate-300 to-slate-800 text-white",

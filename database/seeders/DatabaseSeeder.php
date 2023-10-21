@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now("Asia/Jakarta")
         ]);
 
-        \App\Models\Transaction::factory(12721)->create();
+        \App\Models\Transaction::factory(3123)->create();
 
         \App\Models\Role::create([
             'name' => 'CEO',
@@ -64,12 +64,17 @@ class DatabaseSeeder extends Seeder
             'created_by' => 1,
         ]);
         \App\Models\Role::create([
-            'name' => 'Finance',
-            'importance' => 15,
+            'name' => 'COO',
+            'importance' => 19,
             'created_by' => 1,
         ]);
         \App\Models\Role::create([
             'name' => 'Legal',
+            'importance' => 15,
+            'created_by' => 1,
+        ]);
+        \App\Models\Role::create([
+            'name' => 'Accounting',
             'importance' => 15,
             'created_by' => 1,
         ]);
@@ -99,7 +104,7 @@ class DatabaseSeeder extends Seeder
             'created_by' => 1,
         ]);
         \App\Models\Role::create([
-            'name' => 'Customer Service',
+            'name' => 'Customer Relations',
             'importance' => 5,
             'created_by' => 1,
         ]);
@@ -146,6 +151,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\Role::create([
             'name' => '10-Years of Service',
             'importance' => -8,
+            'created_by' => 1,
+        ]);
+        \App\Models\Role::create([
+            'name' => 'Boards of Director',
+            'importance' => 20,
             'created_by' => 1,
         ]);
 

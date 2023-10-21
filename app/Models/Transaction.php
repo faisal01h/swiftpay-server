@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transaction extends Model
 {
@@ -15,18 +16,20 @@ class Transaction extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'user_identifier',
         'commodity',
+        'destination',
         'created_by',
         'invoice',
         'ref_id',
         'payment_method',
         'source',
         'base_price',
+        'payment_method_fee',
         'sold_price',
         'status',
         'remarks',
+        'coupon_id',
         'raw_json'
     ];
 

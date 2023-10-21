@@ -36,7 +36,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:web')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
+    Route::get('unverified', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)

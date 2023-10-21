@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\TransactionStatus;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Role;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Userrole;
 use App\Traits\Transaction as TraitsTransaction;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -97,6 +99,10 @@ class DashboardController extends Controller
     public function managementIndex(Request $request) {
         $user = Auth::guard('web')->user();
 
+        if(!Gate::allows('management', $user)) {
+            return Inertia::render('Errors/403');
+        }
+
         $roles = [];
 
         $user["roles"] = $user->roles;
@@ -115,7 +121,60 @@ class DashboardController extends Controller
         }
 
         return Inertia::render('Management', [
-            'employees' => $employees
+            'employees' => $employees,
+            'canAssignRole' => Gate::allows('management.set-role', $user),
+            'roles' => Role::where('name', '<>', 'BOT')->where('name', '<>', 'Co-Founders')->orderByDesc('importance')->get()
         ]);
+    }
+
+    public function assignRole(Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id'
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+
+        $count = Userrole::where('user_id', $request->user_id)->where('role_id', $request->role_id)->count();
+        if($count > 0) {
+            abort(400);
+        }
+
+        $userRole = Userrole::create([
+            'user_id' => $request->user_id,
+            'role_id' => $request->role_id,
+            'created_by' => Auth::guard('web')->user()->id
+        ]);
+
+        if(!$user->email_verified_at) {
+            $user->email_verified_at = Carbon::now();
+            $user->save();
+        }
+
+
+        if($userRole) {
+            return response()->json([
+                "message" => "User role assigned!"
+            ], 201);
+        }
+        abort(500);
+    }
+
+    public function removeRole(Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id'
+        ]);
+
+        $count = Userrole::where('user_id', $request->user_id)->where('role_id', $request->role_id)->count();
+        if($count === 0) {
+            abort(404);
+        }
+
+        $userRole = Userrole::where('user_id', $request->user_id)->where('role_id', $request->role_id)->delete();
+
+        return response()->json([
+            "message" => "User role removed!"
+        ], 200);
     }
 }

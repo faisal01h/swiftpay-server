@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained(
                 table: 'users'
             );
+            $table->json('remarks');
             $table->bigInteger('points');
+
             $table->timestamps();
         });
     }

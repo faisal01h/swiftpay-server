@@ -12,7 +12,7 @@ export default function({ data }) {
     // console.log(data)
 
     return (
-        <div className="px-3 py-3 flex flex-col">
+        <div className="px-3 py-3 flex flex-col border rounded-b-md">
             <div className={`${trxStatusClass[data.status]} rounded-full text-center`}>{data.status}</div>
             <div>
 

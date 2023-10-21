@@ -14,18 +14,20 @@ return new class extends Migration
     {
         Schema::create('transactionarchives', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('user_identifier'); // no hp/username game/id game
+            $table->string('invoice')->unique();
+            $table->string('ref_id')->unique();
+            $table->string('user_identifier'); // no hp/email customer
+            $table->string('destination'); // no hp/username game/id game
             $table->string('commodity'); // nama game
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users');
-            $table->string('invoice');
-            $table->string('ref_id');
             $table->string('payment_method');
             $table->string('source');
-            $table->bigInteger('base_price');
-            $table->bigInteger('sold_price');
+            $table->unsignedBigInteger('base_price');
+            $table->unsignedBigInteger('payment_method_fee');
+            $table->unsignedBigInteger('sold_price');
             $table->string('status');
+            $table->unsignedBigInteger('coupon_id')->nullable();
             $table->string('remarks');
             $table->json('raw_json');
             $table->dateTime('transaction_created_at');

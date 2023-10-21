@@ -5,6 +5,8 @@ use App\Enums\PaymentGateway;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 trait Payment
 {
@@ -55,5 +57,8 @@ trait Payment
         $url = "https://api.xendit.co/ewallets/charges/$request->transaction_id/refunds";
         // check if user has Authorization:
             // role => ceo, cfo, operations
+        if(!Gate::allows('manual-transaction', Auth::user())) {
+            return Inertia::render('Errors/403');
+        }
     }
 }

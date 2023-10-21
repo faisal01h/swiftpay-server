@@ -34,7 +34,7 @@ Route::get('/', function () {
 
 
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/transactions', [DashboardController::class, 'showTransactions'])->name('dashboard.transactions');
     Route::get('/management', [DashboardController::class, 'managementIndex'])->name('dashboard.management');
@@ -44,6 +44,8 @@ Route::middleware('auth:web')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/wapi/transactions', [TransactionJwtController::class, 'search'])->name('wapi.transactions');
+    Route::post('/wapi/role/assign', [DashboardController::class, 'assignRole'])->name('wapi.assign-role');
+    Route::post('/wapi/role/remove', [DashboardController::class, 'removeRole'])->name('wapi.remove-role');
 });
 
 

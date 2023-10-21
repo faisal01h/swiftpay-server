@@ -18,7 +18,8 @@ class Userrole extends Model
      */
     protected $fillable = [
         'user_id',
-        'role_id'
+        'role_id',
+        'created_by'
     ];
 
     /**

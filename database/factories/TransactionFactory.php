@@ -20,8 +20,8 @@ class TransactionFactory extends Factory
     {
         $price = fake()->numberBetween(5000, 350000);
         $payload = [
-            "name" => fake()->swiftBicNumber(),
-            "user_identifier" => fake()->phoneNumber(),
+            "user_identifier" => fake('id')->phoneNumber(),
+            "destination" => random_int(12321, 82132),
             "commodity" => fake()->text(6),
             "created_by" => 1,
             "invoice" => strtoupper("SWFX"."_".preg_replace('/[^A-Za-z0-9]/', '', UuidV6::uuid6())),
@@ -29,6 +29,7 @@ class TransactionFactory extends Factory
             "payment_method" => "xendit.qris",
             "source" => "digiflazz",
             "base_price" => $price,
+            "payment_method_fee" => 250,
             "sold_price" => $price+2000,
             "status" => fake()->randomElement(['UNPAID', 'PENDING', 'SUCCESS', 'FAILED', 'PEND_REFUND', 'SUCC_REFUND', 'CANC_REFUND']),
             "remarks" => "-",
