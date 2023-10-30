@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionJwtController;
 use Illuminate\Foundation\Application;
@@ -42,6 +43,8 @@ Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/pull-price', [ProductController::class, 'pullDigiflazzPrices'])->name('price.pull');
 
     Route::get('/wapi/transactions', [TransactionJwtController::class, 'search'])->name('wapi.transactions');
     Route::post('/wapi/role/assign', [DashboardController::class, 'assignRole'])->name('wapi.assign-role');

@@ -15,17 +15,16 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('invoice')->unique();
-            $table->string('ref_id')->unique();
-            $table->string('user_identifier'); // no hp/email customer
+            $table->uuid('ref_id')->unique();
+            $table->foreignId('product_id')->constrained('products');
+            $table->string('user_identifier'); // no hp customer
             $table->string('destination'); // no hp/username game/id game
-            $table->string('commodity'); // nama game
             $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users');
             $table->string('payment_method');
             $table->string('source');
             $table->unsignedBigInteger('base_price');
             $table->unsignedBigInteger('payment_method_fee');
-            $table->unsignedBigInteger('sold_price');
+            $table->unsignedBigInteger('selling_price');
             $table->string('status');
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->string('remarks');

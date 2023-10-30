@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Transaction extends Model
+class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -16,21 +16,18 @@ class Transaction extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'product_id',
-        'user_identifier',
-        'destination',
-        'created_by',
-        'invoice',
-        'ref_id',
-        'payment_method',
+        'name',
+        'description',
+        'category_id',
+        'sku',
         'source',
+        'max_price',
         'base_price',
-        'payment_method_fee',
+        'discounted_price',
         'selling_price',
-        'status',
-        'remarks',
-        'coupon_id',
-        'raw_json'
+        'enabled',
+        'cutoff_start',
+        'cutoff_end'
     ];
 
     /**

@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
                 "Junior Software Engineer",
                 "Devops & QA",
                 "Operations",
-                "Customer Service"
+                "Customer Relations"
             ];
             $user->roles;
             foreach($user["roles"] as $role) {

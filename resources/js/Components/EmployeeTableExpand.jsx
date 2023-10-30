@@ -90,7 +90,7 @@ export default function({ data, canAssignRole, roles }) {
                 </div>
             </div>
             {
-                canAssignRole && data.roles[0].detail.name !== 'BOT' ?
+                canAssignRole ?
                 <div className="flex flex-col gap-1">
                     <div className="grid grid-cols-4 gap-2">
                         <InputLabel>Assign Role</InputLabel>

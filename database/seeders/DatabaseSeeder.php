@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now("Asia/Jakarta")
         ]);
 
-        \App\Models\Transaction::factory(3123)->create();
+        // \App\Models\Transaction::factory(3123)->create();
 
         \App\Models\Role::create([
             'name' => 'CEO',
@@ -169,11 +169,11 @@ class DatabaseSeeder extends Seeder
             'role_id' => 1,
             'created_by' => 1
         ]);
-        \App\Models\Userrole::create([
-            'user_id' => 3,
-            'role_id' => 2,
-            'created_by' => 1
-        ]);
+        // \App\Models\Userrole::create([
+        //     'user_id' => 3,
+        //     'role_id' => 2,
+        //     'created_by' => 1
+        // ]);
 
         \App\Models\Coupon::create([
             'name' => 'Diskon 75%',
