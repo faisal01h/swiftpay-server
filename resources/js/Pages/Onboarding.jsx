@@ -17,7 +17,7 @@ export default function Onboarding({ auth, roles }) {
     const submit = (e) => {
         e.preventDefault();
         console.log(data)
-        let dt = `Halo, saya ingin mengkonfirmasi akun saya untuk ${import.meta.env.VITE_APP_NAME} nomor ${data.roomLabel} atas nama *${data.name}* dengan nomor identitas *${data.idNumber}*. Terima kasih.`;
+        let dt = `Halo, saya ingin mengkonfirmasi akun saya untuk ${import.meta.env.VITE_APP_NAME} *${data.name}*. Terima kasih.`;
         document.location.href = `https://wa.me/6285733710858/?text=${encodeURI(dt)}`;
         // post(route('login'));
     };

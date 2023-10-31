@@ -174,6 +174,19 @@ class DatabaseSeeder extends Seeder
         //     'role_id' => 2,
         //     'created_by' => 1
         // ]);
+        \App\Models\Category::create([
+            'name' => 'Uncategorized',
+            'slug' => 'uncategorized',
+            'image' => null,
+            'prompt' => 'Masukkan nomor tujuan'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'PLN',
+            'slug' => 'pln',
+            'image' => null,
+            'prompt' => "Masukkan nomor meteran"
+        ]);
 
         \App\Models\Coupon::create([
             'name' => 'Diskon 75%',

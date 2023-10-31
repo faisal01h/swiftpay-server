@@ -46,4 +46,8 @@ class Product extends Model
      */
     protected $casts = [
     ];
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }

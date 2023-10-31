@@ -16,6 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('image')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->string('prompt');
             $table->softDeletes();
             $table->timestamps();
         });
