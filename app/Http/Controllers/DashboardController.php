@@ -42,13 +42,13 @@ class DashboardController extends Controller
             return Inertia::render('Onboarding', ["roles" => $roles]);
         } else {
             $data["transactions"] = [
-                "UNPAID" => Transaction::where('status', "UNPAID")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "PENDING" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "SUCCESS" => Transaction::where('status', "SUCCESS")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "FAILED" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "PEND_REFUND" => Transaction::where('status', TransactionStatus::PENDING_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "SUCC_REFUND" => Transaction::where('status', TransactionStatus::SUCCESS_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-                "CANC_REFUND" => Transaction::where('status', TransactionStatus::CANCELED_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
+                "UNPAID" => Transaction::where('status', "UNPAID")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "PENDING" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "SUCCESS" => Transaction::where('status', "SUCCESS")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "FAILED" => Transaction::where('status', "FAILED")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "PEND_REFUND" => Transaction::where('status', TransactionStatus::PENDING_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "SUCC_REFUND" => Transaction::where('status', TransactionStatus::SUCCESS_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+                "CANC_REFUND" => Transaction::where('status', TransactionStatus::CANCELED_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
             ];
             // return response()->json($data["transactions"]);
             return Inertia::render('Dashboard', ["stats" => $data]);
@@ -78,20 +78,26 @@ class DashboardController extends Controller
             return Inertia::render('Errors/403');
         }
         $filteredData = $this->find($searchQuery);
+        // foreach($filteredData as $filteredDatum) {
+        //     $filteredDatum->product;
+        // }
         // $statistics = Transaction::where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->get();
 
         $stats["transactions"] = [
-            "UNPAID" => Transaction::where('status', "UNPAID")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "PENDING" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "SUCCESS" => Transaction::where('status', "SUCCESS")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "FAILED" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "PEND_REFUND" => Transaction::where('status', TransactionStatus::PENDING_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "SUCC_REFUND" => Transaction::where('status', TransactionStatus::SUCCESS_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
-            "CANC_REFUND" => Transaction::where('status', TransactionStatus::CANCELED_REFUND)->where('updated_at', '>=', Carbon::create(date('Y'), date('m'), date('d')-7))->count(),
+            "UNPAID" => Transaction::where('status', "UNPAID")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "PENDING" => Transaction::where('status', "PENDING")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "SUCCESS" => Transaction::where('status', "SUCCESS")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "FAILED" => Transaction::where('status', "FAILED")->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "PEND_REFUND" => Transaction::where('status', TransactionStatus::PENDING_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "SUCC_REFUND" => Transaction::where('status', TransactionStatus::SUCCESS_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
+            "CANC_REFUND" => Transaction::where('status', TransactionStatus::CANCELED_REFUND)->where('updated_at', '>=', Carbon::now()->subDays(7))->count(),
         ];
         return Inertia::render('Transactions', [
             'stats' => $stats,
             'filteredData' => fn () => $filteredData,
+            'permissions' => [
+                'manual_transaction' => Gate::allows('manual-transaction', Auth::user()),
+            ]
         ]);
 
     }

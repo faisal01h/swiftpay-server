@@ -19,7 +19,7 @@ trait Transaction
     ];
     public function find(array $keyValuePairs, $limit = 30)
     {
-        $query = DB::table('transactions');
+        $query = Transactions::query();
         foreach($this->findKey as $key => $_value) {
             if(array_key_exists($key, $keyValuePairs)) {
                 $query->where($key, $keyValuePairs[$key]);
@@ -32,6 +32,9 @@ trait Transaction
         // $query->limit(25);
         // $result = $query->orderByDesc('updated_at')->get();
         $result = $query->get();
+        foreach($result as $res) {
+            $res->product;
+        }
         return $result;
     }
 

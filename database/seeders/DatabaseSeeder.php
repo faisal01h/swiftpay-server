@@ -33,13 +33,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now("Asia/Jakarta")
         ]);
-        \App\Models\User::create([
-            'name' => 'Ernia Dwi Anjani',
-            'phone' => '+6285648597632',
-            'email' => 'erniadwianjani@gmail.com',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now("Asia/Jakarta")
-        ]);
+        // \App\Models\User::create([
+        //     'name' => 'Ernia Dwi Anjani',
+        //     'phone' => '+6285648597632',
+        //     'email' => 'erniadwianjani@gmail.com',
+        //     'password' => Hash::make('password'),
+        //     'email_verified_at' => now("Asia/Jakarta")
+        // ]);
 
         // \App\Models\Transaction::factory(3123)->create();
 

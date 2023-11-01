@@ -30,7 +30,7 @@ const columns = [
         selector: row => <div><pre className='font-mono font-semibold hover:bg-gray-300 px-1 cursor-copy' onClick={e=>navigator.clipboard.writeText(row.ref_id)}>{row.ref_id}</pre></div>,
     },
     {
-        name: 'UserIdent',
+        name: 'User ID',
         selector: row => row.user_identifier,
         sortable: true,
     },
@@ -39,18 +39,18 @@ const columns = [
         selector: row => row.status,
     },
     {
-        name: 'Commodity',
-        selector: row => row.commodity,
+        name: 'SKU',
+        selector: row => row.product.sku,
         sortable: true,
     },
     {
         name: 'Sold Price',
-        selector: row => Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(row.sold_price),
+        selector: row => Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR'}).format(row.selling_price),
         sortable: true,
     },
 ];
 
-export default function Dashboard({ auth, stats, filteredData }) {
+export default function Dashboard({ auth, stats, filteredData, permissions }) {
 
     const [ autofetch, setAutofetch ] = useState(true);
     const [ prevRefundPendingValue, setPrevRefundPendingValue ] = useState(-1);
@@ -266,6 +266,7 @@ export default function Dashboard({ auth, stats, filteredData }) {
                                 dense
                                 highlightOnHover
                                 expandableRowsComponent={DataTableExpand}
+                                expandableRowsComponentProps={{"permissions": permissions}}
                             />
                         </div>
                     </div>
