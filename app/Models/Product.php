@@ -45,6 +45,7 @@ class Product extends Model
      * @var array<string, string>
      */
     protected $casts = [
+
     ];
 
     public function category() {

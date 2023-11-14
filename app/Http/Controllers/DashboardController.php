@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\TransactionStatus;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\Transaction;
 use App\Models\User;
@@ -182,5 +184,38 @@ class DashboardController extends Controller
         return response()->json([
             "message" => "User role removed!"
         ], 200);
+    }
+
+    public function products(Request $request) {
+        $products = Product::query();
+        if($request->sku) {
+            $products->where('sku', $request->sku);
+        }
+        if($request->name) {
+            $products->where('name', 'LIKE', '%'.$request->name.'%');
+        }
+        $products = $products->get();
+
+        foreach($products as $product) {
+            $product->category;
+            if($product->cutoff_start) $product->cutoff_start = date('H:i:s', $product->cutoff_start);
+            if($product->cutoff_end) $product->cutoff_end = date('H:i:s', $product->cutoff_end);
+        }
+
+        $user = Auth::guard('web')->user();
+
+        $roles = [];
+
+        $user["roles"] = $user->roles;
+        foreach($user["roles"] as $role) {
+            $role->detail;
+            $role->createdBy;
+            array_push($roles, $role->detail->name);
+        }
+
+        return Inertia::render('Products', [
+            'products' => $products,
+            'categories' => Category::get()
+        ]);
     }
 }

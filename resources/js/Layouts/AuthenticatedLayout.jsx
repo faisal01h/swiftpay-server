@@ -6,15 +6,28 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import { useEffect } from 'react';
 
+const routes = [
+    {
+        name: "Dashboard",
+        route: "dashboard"
+    },
+    {
+        name: "Transactions",
+        route: "dashboard.transactions"
+    },
+    {
+        name: "Products",
+        route: "dashboard.products"
+    },
+];
+
 export default function Authenticated({ user, header, children, mode }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [showManagement, setShowManagement] = useState(false);
 
     useEffect(() => {
         for(let i = 0; i < user.roles.length; ++i) {
-            if( user.roles[i].role_id === 1 ||
-                user.roles[i].role_id === 2 ||
-                user.roles[i].role_id === 3
+            if( user.roles[i].role_id <= 5
             ) {
                 setShowManagement(true);
             }
@@ -36,12 +49,15 @@ export default function Authenticated({ user, header, children, mode }) {
                             {
                                 mode !== "onboarding" ?
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                        Dashboard
-                                    </NavLink>
-                                    <NavLink href={route('dashboard.transactions')} active={route().current('dashboard.transactions')}>
-                                        Transactions
-                                    </NavLink>
+                                    {
+                                        routes.map((e, i) => {
+                                            return (
+                                                <NavLink key={i} href={route(e.route)} active={route().current(e.route)}>
+                                                    {e.name}
+                                                </NavLink>
+                                            )
+                                        })
+                                    }
                                     {
                                         showManagement ?
                                         <NavLink href={route('dashboard.management')} active={route().current('dashboard.management')}>
@@ -123,12 +139,15 @@ export default function Authenticated({ user, header, children, mode }) {
 
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('dashboard.transactions')} active={route().current('dashboard.transactions')}>
-                            Transactions
-                        </ResponsiveNavLink>
+                        {
+                            routes.map((e, i) => {
+                                return (
+                                    <ResponsiveNavLink key={i} href={route(e.route)} active={route().current(e.route)}>
+                                        {e.name}
+                                    </ResponsiveNavLink>
+                                )
+                            })
+                        }
                         {
                             showManagement ?
                             <ResponsiveNavLink href={route('dashboard.management')} active={route().current('dashboard.management')}>

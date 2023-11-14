@@ -29,7 +29,7 @@ class Category extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'id'
+
     ];
 
     /**

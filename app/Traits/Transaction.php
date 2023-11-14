@@ -43,9 +43,15 @@ trait Transaction
 
     }
 
-    public function updateStatus($status)
+    public function updateStatus($referenceId, $status)
     {
-
+        $trx = Transactions::where('ref_id', $referenceId)->first();
+        if(!$trx) {
+            abort(404, "Transaction not found!");
+        }
+        $trx->status = $status;
+        $trx->save();
+        return $trx;
     }
 
     public function modifyDestination()

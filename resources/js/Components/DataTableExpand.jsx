@@ -1,5 +1,8 @@
+import { router, useForm } from "@inertiajs/react";
+import SecondaryButton from "./SecondaryButton";
+
 const trxStatusClass = {
-    UNPAID: "bg-slate-700, text-white",
+    UNPAID: "bg-gray-300 text-black",
     SUCCESS: "bg-green-600 text-white",
     PENDING: "bg-amber-600 text-white",
     FAILED: "bg-red-600 text-white",
@@ -19,7 +22,22 @@ const statuses = [
 ]
 
 export default function({ data, permissions }) {
-    console.log(permissions)
+
+    const { data: statusData, setData: setStatusData, post, errors } = useForm({
+        ref_id: data.ref_id,
+        status: null
+    })
+
+    function setStatus() {
+        post(route('dashboard.transactions.status'), {
+            onSuccess: (e) => {
+                router.reload()
+            },
+            onError: (e) => {
+                alert(e)
+            }
+        })
+    }
 
     return (
         <div className="px-3 py-3 flex flex-col border rounded-b-md">
@@ -65,7 +83,7 @@ export default function({ data, permissions }) {
                     <div className="grid grid-cols-2">
                         <b>Set status</b>
                         <div>
-                            <select className="rounded-md py-1">
+                            <select className="rounded-md py-1" onChange={e=>setStatusData('status', e.target.value)}>
                                 <option>Select status</option>
                                 {
                                     statuses.map((e, i) => {
@@ -73,6 +91,7 @@ export default function({ data, permissions }) {
                                     })
                                 }
                             </select>
+                            <SecondaryButton onClick={setStatus}>Set</SecondaryButton>
                         </div>
                     </div>
                 </div>
@@ -84,6 +103,10 @@ export default function({ data, permissions }) {
                     <div className="grid grid-cols-2">
                         <b>Invoice</b>
                         <p>{data.invoice}</p>
+                    </div>
+                    <div className="grid grid-cols-2">
+                        <b>Destination</b>
+                        <p>{data.destination}</p>
                     </div>
                     <div className="grid grid-cols-2">
                         <b>Source</b>
@@ -140,12 +163,12 @@ export default function({ data, permissions }) {
                     })}
                 </div>
             </div>
-            <div className=" bg-gray-700 text-gray-200 rounded-lg gap-2 flex flex-col mt-3">
+            {/* <div className=" bg-gray-700 text-gray-200 rounded-lg gap-2 flex flex-col mt-3">
                 <div className="py-1 px-3 bg-slate-800 rounded-t-lg">
                     <b className="">Raw JSON</b>
                 </div>
                 <p className="break-all px-3 pb-2 font-mono">{JSON.stringify(data)}</p>
-            </div>
+            </div> */}
         </div>
     )
 }

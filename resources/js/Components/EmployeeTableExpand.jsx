@@ -122,12 +122,12 @@ export default function({ data, canAssignRole, roles }) {
                     </div>
                 </div> : ""
             }
-            <div className=" bg-gray-700 text-gray-200 rounded-lg gap-2 flex flex-col">
+            {/* <div className=" bg-gray-700 text-gray-200 rounded-lg gap-2 flex flex-col">
                 <div className="py-1 px-3 bg-slate-800 rounded-t-lg">
                     <b className="">Raw JSON</b>
                 </div>
                 <p className="break-all px-3 pb-2 font-mono">{JSON.stringify(data)}</p>
-            </div>
+            </div> */}
         </div>
     )
 }
