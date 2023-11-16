@@ -1,11 +1,15 @@
 import CategoryTableExpand from "@/Components/CategoryTableExpand";
+import InputLabel from "@/Components/InputLabel";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
 import ProductTableExpand from "@/Components/ProductTableExpand";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
+import { FaX } from "react-icons/fa6";
 
 const columns = [
     {
@@ -67,6 +71,13 @@ export default function Products({ auth, products, categories }) {
     const [ tableDataLoading, setTableDataLoading ] = useState(false);
     const [ sku, setSku ] = useState();
     const [ name, setName ] = useState();
+    const [ showAddCatModal, setShowAddCatModal ] = useState(false);
+
+    const { data: catData, setData: setCatData, post: postCat, errors: errorsCat } = useForm({
+        name: null,
+        slug: null,
+        prompt: null
+    })
 
     function filter() {
         router.visit(route('dashboard.products', {
@@ -75,7 +86,21 @@ export default function Products({ auth, products, categories }) {
         }))
     }
 
-    console.log(categories)
+    function closeCatModal() {
+        setShowAddCatModal(false);
+    }
+
+    function addCategory() {
+        postCat(route('dashboard.categories'), {
+            onSuccess: (_e) => {
+                router.reload()
+                closeCatModal()
+            },
+            onError: (e) => {
+                console.error(e)
+            }
+        })
+    }
 
     return (
         <AuthenticatedLayout
@@ -83,6 +108,34 @@ export default function Products({ auth, products, categories }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Products</h2>}
         >
             <Head title="Products" />
+
+            <Modal show={showAddCatModal} onClose={closeCatModal}>
+                <div className="px-5 py-3 flex flex-col gap-5">
+                    <div className="border-b pb-2 flex justify-between items-center">
+                        <h3 className="text-lg font-bold">Add Category</h3>
+                        <button onClick={closeCatModal}>
+                            <FaX />
+                        </button>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                        <div className="grid sm:grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+                            <InputLabel htmlFor="sp_cat_name">Category Name</InputLabel>
+                            <TextInput id="sp_cat_name" autoComplete="false" name="sp_cat_name" onChange={e=>setCatData('name', e.target.value)} />
+                        </div>
+                        <div className="grid sm:grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+                            <InputLabel htmlFor="slug">Slug</InputLabel>
+                            <TextInput id="slug" onChange={e=>setCatData('slug', e.target.value)} />
+                        </div>
+                        <div className="grid sm:grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+                            <InputLabel htmlFor="prompt">Prompt</InputLabel>
+                            <TextInput id="prompt" onChange={e=>setCatData('prompt', e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="border-t pt-2 flex justify-end">
+                        <PrimaryButton onClick={addCategory}>Save</PrimaryButton>
+                    </div>
+                </div>
+            </Modal>
 
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-col gap-5">
 
@@ -114,8 +167,9 @@ export default function Products({ auth, products, categories }) {
                 </div>
 
                 <div className="bg-white rounded-md py-3">
-                    <div className="px-5">
+                    <div className="px-5 flex justify-between py-1">
                         <h3 className="font-semibold text-xl text-gray-800 leading-tight">Categories</h3>
+                        <SecondaryButton onClick={_=>setShowAddCatModal(true)}>Add</SecondaryButton>
                     </div>
                     <div>
                         <DataTable

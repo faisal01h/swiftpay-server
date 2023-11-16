@@ -131,7 +131,8 @@ class DashboardController extends Controller
         return Inertia::render('Management', [
             'employees' => $employees,
             'canAssignRole' => Gate::allows('management.set-role', $user),
-            'roles' => Role::where('name', '<>', 'BOT')->where('name', '<>', 'Co-Founders')->orderByDesc('importance')->get()
+            'roles' => Role::where('name', '<>', 'BOT')->where('name', '<>', 'Co-Founders')->orderByDesc('importance')->get(),
+            'canDeleteUser' => Gate::allows('management.delete-user', $user)
         ]);
     }
 

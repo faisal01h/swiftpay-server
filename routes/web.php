@@ -43,10 +43,12 @@ Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::post('/transactions/set-status', [TransactionController::class, 'setStatus'])->name('dashboard.transactions.status');
 
     Route::get('/management', [DashboardController::class, 'managementIndex'])->name('dashboard.management');
+    Route::post('/management/user/delete', [ProfileController::class, 'destroyByAdmin'])->name('dashboard.management.user');
     Route::get('/products', [DashboardController::class, 'products'])->name('dashboard.products');
     Route::get('/products/edit/{sku}', [ProductController::class, 'viewEdit'])->name('dashboard.products.edit');
     Route::post('/products/edit/{sku}', [ProductController::class, 'edit']);
 
+    Route::post('/category', [ProductController::class, 'addCategory'])->name('dashboard.categories');
     Route::post('/category/image', [ProductController::class, 'categoryImageUpload'])->name('dashboard.categories.image');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

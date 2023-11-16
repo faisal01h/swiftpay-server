@@ -99,5 +99,19 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+
+        Gate::define('management.delete-user', function (User $user) {
+            $allowed = [
+                "CEO",
+            ];
+            $user->roles;
+            foreach($user["roles"] as $role) {
+                $role->detail;
+                for($i = 0; $i < count($allowed); ++$i) {
+                    if($role["detail"]["name"] === $allowed[$i]) return true;
+                }
+            }
+            return false;
+        });
     }
 }

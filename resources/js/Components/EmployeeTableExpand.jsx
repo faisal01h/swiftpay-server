@@ -4,6 +4,7 @@ import PrimaryButton from "./PrimaryButton"
 import RoleBadge from "./RoleBadge"
 import { useState } from "react"
 import { router } from "@inertiajs/react"
+import DangerButton from "./DangerButton"
 
 const dateLocaleOpts = {
     weekday: 'short',
@@ -15,12 +16,11 @@ const dateLocaleOpts = {
     second: '2-digit'
 }
 
-export default function({ data, canAssignRole, roles }) {
+export default function({ data, canAssignRole, roles, canDeleteUser }) {
     // console.log(data, canAssignRole)
     const [ assignRoleId, setAssignRoleId ] = useState();
     const [ removeRoleId, setRemoveRoleId ] = useState();
     const [ sortedRoles, setSortedRoles ] = useState(data.roles.sort((e, f) => f.detail.importance - e.detail.importance));
-    console.log(sortedRoles)
 
     function assign() {
         axios.post(route('wapi.assign-role'), {
@@ -48,6 +48,16 @@ export default function({ data, canAssignRole, roles }) {
         .catch((e) => {
             console.error(e)
         })
+    }
+
+    function deleteUser() {
+        axios.post(route('dashboard.management.user'), {
+            user_id: data.id
+        })
+        .then((e) => {
+            router.reload()
+        })
+        .catch(console.error)
     }
 
     return (
@@ -90,9 +100,12 @@ export default function({ data, canAssignRole, roles }) {
                 </div>
             </div>
             {
+                canAssignRole || canDeleteUser ? <hr /> : ""
+            }
+            {
                 canAssignRole ?
-                <div className="flex flex-col gap-1">
-                    <div className="grid grid-cols-4 gap-2">
+                <div className="flex flex-row gap-1">
+                    <div className="grid grid-cols-3 gap-2">
                         <InputLabel>Assign Role</InputLabel>
                         <select className="rounded-md border-gray-600 py-1 px-2" onChange={e=>setAssignRoleId(e.target.value)}>
                             <option>Select Role</option>
@@ -106,7 +119,7 @@ export default function({ data, canAssignRole, roles }) {
                         </select>
                         <PrimaryButton className="w-fit" onClick={assign}>Assign</PrimaryButton>
                     </div>
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                         <InputLabel>Remove Role</InputLabel>
                         <select className="rounded-md border-gray-600 py-1 px-2 min-w-[100px]" onChange={e=>setRemoveRoleId(e.target.value)}>
                             <option>Select Role</option>
@@ -120,6 +133,12 @@ export default function({ data, canAssignRole, roles }) {
                         </select>
                         <PrimaryButton className="w-fit" onClick={remove}>Remove</PrimaryButton>
                     </div>
+                </div> : ""
+            }
+            {
+                canDeleteUser ?
+                <div className="flex">
+                    <DangerButton onClick={deleteUser}>Delete User</DangerButton>
                 </div> : ""
             }
             {/* <div className=" bg-gray-700 text-gray-200 rounded-lg gap-2 flex flex-col">

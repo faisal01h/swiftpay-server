@@ -180,6 +180,22 @@ class ProductController extends Controller
         ]);
     }
 
+    public function addCategory(Request $request) {
+        $request->validate([
+            'name' => 'required|string',
+            'slug' => 'required|unique:categories,slug',
+            'prompt' => 'required|string|min:5'
+        ]);
+
+        $category = Category::create([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'prompt' => $request->prompt
+        ]);
+
+        return Redirect::route('dashboard.products');
+    }
+
     public function categoryImageUpload(Request $request) {
         $request->validate([
             'type' => 'required|in:cover,image',

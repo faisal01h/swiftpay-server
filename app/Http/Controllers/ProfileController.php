@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -55,6 +56,25 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit');
+    }
+
+    public function destroyByAdmin(Request $request) {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail(Auth::guard('web')->user()->id);
+        if(Gate::allows('management.delete-user') && $admin->id != $request->user_id) {
+            $user = User::findOrFail($request->user_id);
+            $user->delete();
+            return response()->json([
+                'message' => 'User deleted!'
+            ]);
+        }
+        return response()->json([
+            'message' => "Action forbidden"
+        ], 403);
+
     }
 
     /**

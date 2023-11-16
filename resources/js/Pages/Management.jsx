@@ -24,9 +24,9 @@ const columns = [
     },
 ];
 
-export default function Management({ auth, employees, canAssignRole = false, roles }) {
+export default function Management({ auth, employees, canAssignRole = false, roles, canDeleteUser = false }) {
 
-    console.log('cAR', employees)
+    // console.log('cAR', employees)
 
     return (
         <ManagementLayout
@@ -50,7 +50,7 @@ export default function Management({ auth, employees, canAssignRole = false, rol
                         dense
                         highlightOnHover
                         expandableRowsComponent={EmployeeTableExpand}
-                        expandableRowsComponentProps={{canAssignRole, roles}}
+                        expandableRowsComponentProps={{canAssignRole, roles, canDeleteUser}}
                     />
                 </div>
             </div>
